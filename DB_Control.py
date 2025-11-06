@@ -4,6 +4,16 @@ from DB_Settings import Settings
 class DB_Control(Settings):
 
     def insert_Client(self, first_name: str, last_name: str, email: str):
+        """Insert a new client into the database.
+
+        Args:
+            first_name (str): Client's first name.
+            last_name (str): Client's last name.
+            email (str): Client's email address.
+
+        Returns:
+            int: The ID of the newly created client.
+        """
         with self._cursor() as cur:
             cur.execute("""
             insert into Client(first_name, last_name, email)
@@ -16,6 +26,12 @@ class DB_Control(Settings):
 
 
     def insert_Phone(self, number: str, client_id: int):
+        """Insert a new phone number for an existing client.
+
+        Args:
+            number (str): Phone number to add.
+            client_id (int): ID of the associated client.
+        """
         with self._cursor() as cur:
             cur.execute("""
             insert into Phone(number, client_id)
@@ -25,6 +41,14 @@ class DB_Control(Settings):
 
 
     def update_Client(self, id, first_name = None, last_name = None, email = None):
+        """Update client information by ID.
+
+        Args:
+            id (int): Client ID.
+            first_name (str, optional): New first name.
+            last_name (str, optional): New last name.
+            email (str, optional): New email address.
+        """
         with self._cursor() as cur:
             for obj, value in {'first_name': first_name, 'last_name': last_name, 'email': email}.items():
                 if value is not None:
@@ -36,6 +60,12 @@ class DB_Control(Settings):
 
 
     def delete_Phone(self, client_id, number):
+        """Delete a specific phone number for a given client.
+
+        Args:
+            client_id (int): Client ID.
+            number (str): Phone number to delete.
+        """
         with self._cursor() as cur:
             cur.execute("""
             delete from Phone 
@@ -45,6 +75,11 @@ class DB_Control(Settings):
 
 
     def delete_Client(self, id):
+        """Delete a client and all related phone numbers.
+
+        Args:
+            id (int): Client ID.
+        """
         with self._cursor() as cur:
             cur.execute("""
             delete from Client 
@@ -54,6 +89,17 @@ class DB_Control(Settings):
 
 
     def find_Client(self, first_name = None, last_name = None, email = None, number = None):
+        """Find a client by first name, last name, email, or phone number.
+
+        Args:
+            first_name (str, optional): Filter by first name.
+            last_name (str, optional): Filter by last name.
+            email (str, optional): Filter by email.
+            number (str, optional): Filter by phone number.
+
+        Returns:
+            dict | None: A dictionary with client data, or None if not found.
+        """
         client_info = {}
         data = {'first_name': first_name, 'last_name': last_name, 'email': email, 'number': number}
         values = []

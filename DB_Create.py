@@ -4,6 +4,7 @@ from DB_Settings import Settings
 class Create(Settings):
 
     def create_table_Client(self):
+        """Create the 'Client' table if it does not already exist."""
         with self._cursor() as cur:
             cur.execute("""
             create table if not exists Client(
@@ -17,6 +18,7 @@ class Create(Settings):
 
 
     def create_table_Phone(self):
+        """Create the 'Phone' table if it does not already exist."""
         with self._cursor() as cur:
             cur.execute("""
             create table if not exists Phone(
