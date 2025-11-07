@@ -12,6 +12,7 @@ class Settings:
             password (str): Database password.
             self.conn = psycopg2.connect(database=database, user=user, password=password)
         """
+        self.conn = psycopg2.connect(database=database, user=user, password=password)
         
     def _cursor(self):
         """Create and return a new database cursor."""
